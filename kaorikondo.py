@@ -49,6 +49,8 @@ def job():
 
 		 # session clarifai actions
 		session.clarifai_check_img_for(['food'], comment=True, comments=['Tasty!', 'Yum!'])
+		session.clarifai_check_img_for(['ceramic'], comment=True, comments=['Nice Design', 'Cool color!'])
+
    		 # actions
     		session.like_by_tags(['designer', 'webdesign', 'UX', 'design', 'ceramics', 'architecture', 'design art' ], amount=50)
 		session.like_by_users(usernames=['random_user'], amount=10, random=True)
