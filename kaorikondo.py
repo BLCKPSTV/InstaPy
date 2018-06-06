@@ -25,7 +25,12 @@ def job():
 
     		session.login()
 
-    	# settings
+    		# settings
+		# default enabled=False , enables the checking with the clarifai api (image tagging)
+		# if secret and proj_id are not set, it will get the environment Variables
+		# 'CLARIFAI_API_KEY'
+		session.set_use_clarifai(enabled=True, api_key='f56aa5af66994d4f92eaf5e8e7db8e03')
+		session.set_use_clarifai(enabled=True)
    	 	session.set_relationship_bounds(enabled=True,
 						 potency_ratio=-1.21,
 				  		delimit_by_numbers=True,
@@ -34,12 +39,23 @@ def job():
 				     		min_followers=45,
 				      		min_following=77)
    	 	session.set_do_comment(True, percentage=10)
-    		session.set_comments(['aMEIzing!', 'So much fun!!', 'Nicey!'])
-   		session.set_dont_include(['friend1', 'friend2', 'friend3'])
-    		session.set_dont_like(['pizza', 'girl'])
+    		session.set_comments([u'Nice shot! :thumbsup:', 'Where is that?', 'Need to do that too!'], media='Photo')
+    		session.set_comments(['Great Video!', u'How artful :sparkles:'], media='Video')
+    		session.set_comments(['Nice shot! @{}', 'Couldnt have done it any better! @{}'], media='Photo')
+    		session.set_comments(['Cool!', 'Awesome!', 'Nice!', 'Super!', u'Sugoi! :trollface:', u':raised_hands: Automation Collective (Social Flux) :raised_hands:'])
+   		session.set_dont_include(['random_user'])
+    		session.set_dont_like(['pizza', 'girl', 'raciscme', 'pro trump'])
+		session.set_user_interact(amount=5, random=True, percentage=50, media='Photo')
 
+		 # session clarifai actions
+		session.clarifai_check_img_for(['food'], comment=True, comments=['Tasty!', 'Yum!'])
    		 # actions
-    		session.like_by_tags(['natgeo'], amount=1)
+    		session.like_by_tags(['designer', 'webdesign', 'UX', 'design', 'ceramics', 'architecture', 'design art' ], amount=50)
+		session.like_by_users(usernames=['random_user'], amount=10, random=True)
+		session.like_by_feed(amount=10, randomize=True)
+		session.interact_user_followers(['natgeo', 'charity', 'design'], amount=10, random=True)
+		session.unfollow_users(amount=2)
+		
 
 	except Exception as exc:
    		# if changes to IG layout, upload the file to help us locate the change
