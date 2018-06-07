@@ -20,7 +20,7 @@ def job():
 	try:
 		session = InstaPy(username=insta_username,
                   password=insta_password,
-                  headless_browser=True,
+                  headless_browser=False,
                   multi_logs=True)
 
     		session.login()
@@ -45,7 +45,7 @@ def job():
     		session.set_comments(['Cool!', 'Awesome!', 'Nice!', 'Super!', u'Sugoi! :trollface:', u':raised_hands: Automation Collective (Social Flux) :raised_hands:'])
    		session.set_dont_include(['random_user'])
     		session.set_dont_like(['pizza', 'girl', 'raciscme', 'pro trump'])
-		session.set_user_interact(amount=5, random=True, percentage=50, media='Photo')
+		session.set_user_interact(amount=5, randomize=True, percentage=50, media='Photo')
 
 		 # session clarifai actions
 		session.clarifai_check_img_for(['food'], comment=True, comments=['Tasty!', 'Yum!'])
@@ -53,34 +53,25 @@ def job():
 
    		 # actions
     		session.like_by_tags(['designer', 'webdesign', 'UX', 'design', 'ceramics', 'architecture', 'design art' ], amount=50)
-		session.like_by_users(usernames=['random_user'], amount=10, random=True)
+		session.like_by_users(usernames=['random_user'], amount=10, randomize=True)
 		session.like_by_feed(amount=10, randomize=True)
-		session.interact_user_followers(['natgeo', 'charity', 'design'], amount=10, random=True)
+		session.interact_user_followers(['natgeo', 'charity', 'design'], amount=10, randomize=True)
 		session.unfollow_users(amount=2)
 		
 
-	except Exception as exc:
-   		# if changes to IG layout, upload the file to help us locate the change
-   		if isinstance(exc, NoSuchElementException):
-       		 file_path = os.path.join(gettempdir(), '{}.html'.format(time.strftime('%Y%m%d-%H%M%S')))
-        	with open(file_path, 'wb') as fp:
-          	 fp.write(session.browser.page_source.encode('utf8'))
-        	print('{0}\nIf raising an issue, please also upload the file located at:\n{1}\n{0}'.format(
-           	 '*' * 70, file_path))
-    		# full stacktrace when raising Github issue
-    		raise
+	
 
 	finally:
     # end the bot session
     	 	session.end()
 	
 schedule.every().day.at("6:35").do(job)
-schedule.every().day.at("16:22").do(job)
-schedule.every().day.at("18:42").do(job)
-schedule.every().day.at("20:22").do(job)
-schedule.every().day.at("22:22").do(job)
+schedule.every().day.at("9:22").do(job)
+schedule.every().day.at("11:22").do(job)
+schedule.every().day.at("16:02").do(job)
+schedule.every().day.at("20:59").do(job)
 schedule.every().day.at("00:22").do(job)
-schedule.every().day.at("04:22").do(job)
+schedule.every().day.at("03:22").do(job)
 
 
 while True:
