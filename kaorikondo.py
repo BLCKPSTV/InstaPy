@@ -52,24 +52,24 @@ def job():
 		session.clarifai_check_img_for(['ceramic'], comment=True, comments=['Nice Design', 'Cool color!'])
 
    		 # actions
-    		session.like_by_tags(['designer', 'webdesign', 'UX', 'design', 'ceramics', 'architecture', 'design art' ], amount=50)
+    		session.like_by_tags(['cats','designer', 'webdesign', 'UX', 'design', 'ceramics', 'architecture', 'design art' ], amount=50)
 		session.like_by_users(usernames=['random_user'], amount=10, randomize=True)
 		session.like_by_feed(amount=10, randomize=True)
 		session.interact_user_followers(['natgeo', 'charity', 'design'], amount=10, randomize=True)
 		session.unfollow_users(amount=2)
-		
 
-	
+
+
 
 	finally:
     # end the bot session
     	 	session.end()
-	
+
 schedule.every().day.at("6:35").do(job)
 schedule.every().day.at("9:22").do(job)
 schedule.every().day.at("11:22").do(job)
 schedule.every().day.at("16:02").do(job)
-schedule.every().day.at("20:59").do(job)
+schedule.every().day.at("20:14").do(job)
 schedule.every().day.at("00:22").do(job)
 schedule.every().day.at("03:22").do(job)
 

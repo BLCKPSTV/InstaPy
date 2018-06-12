@@ -47,7 +47,7 @@ from .unfollow_util import load_follow_restriction
 from .unfollow_util import dump_follow_restriction
 from .unfollow_util import set_automated_followed_pool
 from .feed_util import get_like_on_feed
-from .commenters_util import extract_post_info     
+from .commenters_util import extract_post_info
 from .commenters_util import extract_information
 from .commenters_util import users_liked
 from .commenters_util import get_photo_urls_from_profile
@@ -97,7 +97,7 @@ class InstaPy:
             os.makedirs(self.logfolder)
 
         self.page_delay = page_delay
-        self.switch_language = True
+        self.switch_language = False
         self.use_firefox = use_firefox
         self.firefox_profile_path = None
 
@@ -140,20 +140,20 @@ class InstaPy:
         self.clarifai_api_key = None
         self.clarifai_img_tags = []
         self.clarifai_full_match = False
-        
+
         self.potency_ratio = 1.3466
         self.delimit_by_numbers = True
-        
+
         self.max_followers = 90000
         self.max_following = 66834
         self.min_followers = 35
         self.min_following = 27
-        
+
         self.delimit_liking = False
         self.liking_approved = True
         self.max_likes = 1000
         self.min_likes = 0
-        
+
         self.delimit_commenting = False
         self.commenting_approved = True
         self.max_comments = 35
@@ -544,7 +544,7 @@ class InstaPy:
             self.logger.info("Following commenters of '{}' from pictures in last {} days...\nScrapping wall..".format(username, daysold))
             commenters = extract_information(self.browser, username, daysold, max_pic)
 
-            if len(commenters)>0:  
+            if len(commenters)>0:
                 self.logger.info("Going to follow top {} users.\n".format(amount))
                 sleep(1)
                 # This way of iterating will prevent sleep interference between functions
@@ -619,16 +619,16 @@ class InstaPy:
                             followed_new=0
                             pass
 
-        self.logger.info("Finished following likers!\n")    
+        self.logger.info("Finished following likers!\n")
 
         return self
 
 
-    def follow_by_list(self, followlist, times=1, sleep_delay=600, interact=False): 
+    def follow_by_list(self, followlist, times=1, sleep_delay=600, interact=False):
         """Allows to follow by any scrapped list"""
         if not isinstance(followlist, list):
             followlist = [followlist]
-        
+
         self.follow_times = times or 0
         if self.aborting:
             self.logger.info(">>> self aborting prevented")
@@ -687,7 +687,7 @@ class InstaPy:
                         self.logger.info('Total Follow: {}'.format(str(followed_all)))
 
                     # Check if interaction is expected
-                    if interact and self.do_like: 
+                    if interact and self.do_like:
                         do_interact = random.randint(0, 100) <= self.user_interact_percentage
                         # Do interactions if any
                         if do_interact and self.user_interact_amount>0:
@@ -715,16 +715,16 @@ class InstaPy:
                                    potency_ratio=None,
                                     delimit_by_numbers=None,
                                      max_followers=None,
-                                      max_following=None, 
-                                       min_followers=None, 
+                                      max_following=None,
+                                       min_followers=None,
                                         min_following=None):
         """Sets the potency ratio and limits to the provide an efficient activity between the targeted masses"""
         self.potency_ratio = potency_ratio if enabled==True else None
         self.delimit_by_numbers = delimit_by_numbers if enabled==True else None
-        
+
         self.max_followers = max_followers
         self.min_followers = min_followers
-        
+
         self.max_following = max_following
         self.min_following = min_following
 
@@ -738,7 +738,7 @@ class InstaPy:
         self.delimit_liking = True if enabled==True else False
         self.max_likes = max
         self.min_likes = min
-        
+
 
 
     def set_delimit_commenting(self,
@@ -802,7 +802,7 @@ class InstaPy:
 
                     if not inappropriate and self.delimit_liking:
                         self.liking_approved = verify_liking(self.browser, self.max_likes, self.min_likes, self.logger)
-                    
+
                     if not inappropriate and self.liking_approved:
                         #validate user
                         validation, details = validate_username(self.browser,
@@ -858,7 +858,7 @@ class InstaPy:
                                 user_name not in self.dont_include and
                                 checked_img and
                                     commenting):
-                                
+
                                 if self.delimit_commenting:
                                     self.commenting_approved, disapproval_reason = verify_commenting(self.browser, self.max_comments, self.min_comments, self.logger)
 
@@ -1226,7 +1226,7 @@ class InstaPy:
                                 user_name not in self.dont_include and
                                 checked_img and
                                     commenting):
-                                
+
                                 if self.delimit_commenting:
                                     self.commenting_approved, disapproval_reason = verify_commenting(self.browser, self.max_comments, self.min_comments, self.logger)
 
@@ -1499,7 +1499,7 @@ class InstaPy:
             self.logger.info(
                 'Username [{}/{}]'.format(index + 1, len(usernames)))
             self.logger.info('--> {}'.format(username.encode('utf-8')))
-            
+
             validation, details = validate_username(self.browser,
                                            username,
                                            self.username,
@@ -1580,10 +1580,10 @@ class InstaPy:
                             sleep(1)
 
                         liking = random.randint(0, 100) <= self.like_percentage
-                        
+
                         if self.do_like and liking and self.delimit_liking:
                             self.liking_approved = verify_liking(self.browser, self.max_likes, self.min_likes, self.logger)
-                        
+
                         if self.do_like and liking and self.liking_approved:
                             liked = like_image(self.browser,
                                                user_name,
@@ -1725,12 +1725,12 @@ class InstaPy:
                                                                         self.logger,
                                                                         self.logfolder)
             except (TypeError, RuntimeWarning) as err:
-                
+
                 if isinstance(err, RuntimeWarning):
                     self.logger.warning(
                         u'Warning: {} , skipping to next user'.format(err))
                     continue
-                
+
                 else:
                     self.logger.error(
                         'Sorry, an error occured: {}'.format(err))
@@ -1738,7 +1738,7 @@ class InstaPy:
                     return self
 
             interacted_personal = 0
-            
+
             for person in person_list:
                 if person in simulated_list:
                     validation, details = validate_username(self.browser,
@@ -1780,7 +1780,7 @@ class InstaPy:
             "--> Interacted total of {} people\n".format(interacted_all))
 
         self.not_valid_users += not_valid_users
-        
+
         return self
 
 
@@ -1815,12 +1815,12 @@ class InstaPy:
                                                                         self.logger,
                                                                         self.logfolder)
             except (TypeError, RuntimeWarning) as err:
-                
+
                 if isinstance(err, RuntimeWarning):
                     self.logger.warning(
                         u'Warning: {} , skipping to next user'.format(err))
                     continue
-                
+
                 else:
                     self.logger.error(
                         'Sorry, an error occured: {}'.format(err))
@@ -1828,7 +1828,7 @@ class InstaPy:
                     return self
 
             interacted_personal = 0
-            
+
             for person in person_list:
                 if person in simulated_list:
                     validation, details = validate_username(self.browser,
@@ -1890,9 +1890,9 @@ class InstaPy:
         relax_point = random.randint(7, 14)   # you can use some plain value `10` instead of this quitely randomized score
 
         for index, user in enumerate(usernames):
-            
+
             self.logger.info("User '{}' [{}/{}]".format((user), index+1, len(usernames)))
-            
+
             try:
                 person_list, simulated_list = get_given_user_followers(self.browser,
                                                                         self.username,
@@ -1912,16 +1912,16 @@ class InstaPy:
                     self.logger.warning(
                         u'Warning: {} , skipping to next user'.format(err))
                     continue
-                
+
                 else:
                     self.logger.error(
                         'Sorry, an error occured: {}'.format(err))
                     self.aborting = True
                     return self
-            
+
             followed_personal = 0
             simulated_unfollow = 0
-            
+
             for person in person_list:
                 if person in simulated_list:
                     validation, details = validate_username(self.browser,
@@ -2004,21 +2004,21 @@ class InstaPy:
                                                                         self.logfolder)
 
             except (TypeError, RuntimeWarning) as err:
-                
+
                 if isinstance(err, RuntimeWarning):
                     self.logger.warning(
                         u'Warning: {} , skipping to next user'.format(err))
                     continue
-                
+
                 else:
                     self.logger.error(
                         'Sorry, an error occured: {}'.format(err))
                     self.aborting = True
                     return self
-                    
+
             followed_personal = 0
             simulated_unfollow = 0
-            
+
             for person in person_list:
                 if person in simulated_list:
                     validation, details = validate_username(self.browser,
@@ -2076,12 +2076,12 @@ class InstaPy:
                        onlyNotFollowMe=False,
                        unfollow_after=None):
         """Unfollows (default) 10 users from your following list"""
-        
+
         if unfollow_after is not None:
             if not python_version().startswith(('2.7', '3')):
                 self.logger.warning("`unfollow_after` argument is not available for Python versions below 2.7")
                 unfollow_after = None
-        
+
         if onlyInstapyFollowed:
             self.automatedFollowedPool = set_automated_followed_pool(self.username,
                                                                      self.logger,
