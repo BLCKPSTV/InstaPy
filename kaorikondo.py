@@ -67,8 +67,8 @@ def job():
 
 schedule.every().day.at("6:35").do(job)
 schedule.every().day.at("9:22").do(job)
-schedule.every().day.at("11:22").do(job)
-schedule.every().day.at("16:02").do(job)
+schedule.every().day.at("12:15").do(job)
+schedule.every().day.at("13:50").do(job)
 schedule.every().day.at("20:14").do(job)
 schedule.every().day.at("00:22").do(job)
 schedule.every().day.at("03:22").do(job)
