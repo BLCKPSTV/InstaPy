@@ -7,8 +7,8 @@ from selenium.common.exceptions import NoSuchElementException
 
 from instapy import InstaPy
 
-insta_username = '_kaorikondo_'
-insta_password = 'zv!~8y?$7N7^'
+insta_username = '_kyanrehorst_'
+insta_password = 'Bzw1]ekge4Tk'
 
 # set headless_browser=True if you want to run InstaPy on a server
 
